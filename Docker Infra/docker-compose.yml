@@ -1,0 +1,29 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:12.19
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ~/Data/postgreSQL:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+      - TZ=Europe/Paris
+
+  pgadmin:
+    image: dpage/pgadmin4:8.9
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "5050:80"
+    volumes:
+      - ~/Data/pgadmin:/root/.pgadmin:rw
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.be
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - postgres
